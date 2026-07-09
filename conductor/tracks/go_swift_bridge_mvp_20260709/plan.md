@@ -1,0 +1,49 @@
+# Implementation Plan - Implement Go-Swift Cgo Bridge and Core LLM Runner MVP
+
+## Phase 1: Structured Logger & Rotator
+
+- [ ] Task: Create thread-safe LogRotator and slog MultiHandler
+    - [ ] Write unit tests for LogRotator and MultiHandler
+    - [ ] Implement LogRotator with file size-based rotation and backup limit pruning
+    - [ ] Implement MultiHandler multiplexing console TextHandler and JSONHandler
+- [ ] Task: Implement caller-preserving slog wrapper
+    - [ ] Write unit tests verifying caller location mapping
+    - [ ] Implement custom logger with program counter traversal bypassing wrapper methods
+- [ ] Task: Conductor - User Manual Verification 'Phase 1: Structured Logger & Rotator' (Protocol in workflow.md)
+
+## Phase 2: Swift Bridge & Cgo Integration
+
+- [ ] Task: Implement Swift Bridge (`apple_ai_bridge.swift`)
+    - [ ] Write basic verification test or execution script for Swift compilation
+    - [ ] Implement C-compatible exported functions utilizing FoundationModels
+    - [ ] Use Task and DispatchSemaphore to block Cgo thread synchronously
+    - [ ] Implement strdup memory allocation and FreeAppleAIString deallocator
+- [ ] Task: Implement Go Cgo Wrapper
+    - [ ] Write Cgo binding tests mocking raw C calls
+    - [ ] Implement Go wrapper package referencing the C library with proper defer cleanup
+- [ ] Task: Build Automation
+    - [ ] Create Makefile to build libapple_ai_bridge.dylib and compile Go application
+- [ ] Task: Conductor - User Manual Verification 'Phase 2: Swift Bridge & Cgo Integration' (Protocol in workflow.md)
+
+## Phase 3: CLI, REPL & Configuration
+
+- [ ] Task: Configuration management (`config.yaml`)
+    - [ ] Write unit tests for config file detection and loading
+    - [ ] Implement config loading checking custom path, current directory, and executable location
+- [ ] Task: Command line parser & pipeline execution
+    - [ ] Write unit tests for flag parsing and stdin piping
+    - [ ] Implement standard flag parser and piping loop
+- [ ] Task: Interactive REPL chat (--chat)
+    - [ ] Write unit tests/mocks for the REPL console interface
+    - [ ] Implement REPL loop with prompt history
+- [ ] Task: Conductor - User Manual Verification 'Phase 3: CLI, REPL & Configuration' (Protocol in workflow.md)
+
+## Phase 4: OpenAI HTTP Server & Concurrency
+
+- [ ] Task: OpenAI-compatible completion server
+    - [ ] Write integration tests for completions endpoint
+    - [ ] Implement net/http router and /v1/chat/completions with SSE streaming
+- [ ] Task: Concurrency queueing
+    - [ ] Write concurrency tests simulating multiple request arrivals
+    - [ ] Implement request queueing to prevent engine hardware overload
+- [ ] Task: Conductor - User Manual Verification 'Phase 4: OpenAI HTTP Server & Concurrency' (Protocol in workflow.md)
