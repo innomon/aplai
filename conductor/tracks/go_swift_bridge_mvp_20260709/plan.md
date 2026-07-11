@@ -40,7 +40,7 @@
 
 ## Phase 4: OpenAI HTTP Server & Concurrency
 
-- [ ] Task: OpenAI-compatible completion server
+- [~] Task: OpenAI-compatible completion server
     - [ ] Write integration tests for completions endpoint
     - [ ] Implement net/http router and /v1/chat/completions with SSE streaming
 - [ ] Task: Concurrency queueing
