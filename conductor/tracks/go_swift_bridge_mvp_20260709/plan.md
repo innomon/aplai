@@ -38,7 +38,7 @@
     - [x] Implement REPL loop with prompt history
 - [x] Task: Conductor - User Manual Verification 'Phase 3: CLI, REPL & Configuration' (Protocol in workflow.md) [7781fd8]
 
-## Phase 4: OpenAI HTTP Server & Concurrency
+## Phase 4: OpenAI HTTP Server & Concurrency [checkpoint: 455e2c7]
 
 - [x] Task: OpenAI-compatible completion server [9d31531]
     - [x] Write integration tests for completions endpoint
@@ -46,4 +46,4 @@
 - [x] Task: Concurrency queueing [9d31531]
     - [x] Write concurrency tests simulating multiple request arrivals
     - [x] Implement request queueing to prevent engine hardware overload
-- [~] Task: Conductor - User Manual Verification 'Phase 4: OpenAI HTTP Server & Concurrency' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: OpenAI HTTP Server & Concurrency' (Protocol in workflow.md) [455e2c7]
