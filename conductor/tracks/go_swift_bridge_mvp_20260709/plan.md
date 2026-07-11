@@ -25,7 +25,7 @@
     - [x] Create Makefile to build libapple_ai_bridge.dylib and compile Go application
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Swift Bridge & Cgo Integration' (Protocol in workflow.md) [9fa913b]
 
-## Phase 3: CLI, REPL & Configuration
+## Phase 3: CLI, REPL & Configuration [checkpoint: 7781fd8]
 
 - [x] Task: Configuration management (`config.yaml`) [b25acb8]
     - [x] Write unit tests for config file detection and loading
@@ -36,7 +36,7 @@
 - [x] Task: Interactive REPL chat (--chat) [ae93dfe]
     - [x] Write unit tests/mocks for the REPL console interface
     - [x] Implement REPL loop with prompt history
-- [~] Task: Conductor - User Manual Verification 'Phase 3: CLI, REPL & Configuration' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: CLI, REPL & Configuration' (Protocol in workflow.md) [7781fd8]
 
 ## Phase 4: OpenAI HTTP Server & Concurrency
 
