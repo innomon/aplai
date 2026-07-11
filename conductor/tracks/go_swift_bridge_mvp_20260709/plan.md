@@ -9,7 +9,7 @@
 - [x] Task: Implement caller-preserving slog wrapper [fa769af]
     - [x] Write unit tests verifying caller location mapping
     - [x] Implement custom logger with program counter traversal bypassing wrapper methods
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Structured Logger & Rotator' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Phase 1: Structured Logger & Rotator' (Protocol in workflow.md)
 
 ## Phase 2: Swift Bridge & Cgo Integration
 
