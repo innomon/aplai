@@ -1,0 +1,9 @@
+# Compiled dynamic libraries
+*.dylib
+
+# Coverage profiles
+*.out
+
+# App binaries
+aplai
+verify_logger
