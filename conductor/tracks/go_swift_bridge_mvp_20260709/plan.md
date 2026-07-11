@@ -2,10 +2,10 @@
 
 ## Phase 1: Structured Logger & Rotator
 
-- [ ] Task: Create thread-safe LogRotator and slog MultiHandler
-    - [ ] Write unit tests for LogRotator and MultiHandler
-    - [ ] Implement LogRotator with file size-based rotation and backup limit pruning
-    - [ ] Implement MultiHandler multiplexing console TextHandler and JSONHandler
+- [x] Task: Create thread-safe LogRotator and slog MultiHandler [1b68b32]
+    - [x] Write unit tests for LogRotator and MultiHandler
+    - [x] Implement LogRotator with file size-based rotation and backup limit pruning
+    - [x] Implement MultiHandler multiplexing console TextHandler and JSONHandler
 - [ ] Task: Implement caller-preserving slog wrapper
     - [ ] Write unit tests verifying caller location mapping
     - [ ] Implement custom logger with program counter traversal bypassing wrapper methods
