@@ -36,7 +36,7 @@
 - [x] Task: Interactive REPL chat (--chat) [ae93dfe]
     - [x] Write unit tests/mocks for the REPL console interface
     - [x] Implement REPL loop with prompt history
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: CLI, REPL & Configuration' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Phase 3: CLI, REPL & Configuration' (Protocol in workflow.md)
 
 ## Phase 4: OpenAI HTTP Server & Concurrency
 
