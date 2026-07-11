@@ -18,7 +18,7 @@
     - [x] Implement C-compatible exported functions utilizing FoundationModels
     - [x] Use Task and DispatchSemaphore to block Cgo thread synchronously
     - [x] Implement strdup memory allocation and FreeAppleAIString deallocator
-- [ ] Task: Implement Go Cgo Wrapper
+- [~] Task: Implement Go Cgo Wrapper
     - [ ] Write Cgo binding tests mocking raw C calls
     - [ ] Implement Go wrapper package referencing the C library with proper defer cleanup
 - [ ] Task: Build Automation
