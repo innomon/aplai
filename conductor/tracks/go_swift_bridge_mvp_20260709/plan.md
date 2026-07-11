@@ -40,10 +40,10 @@
 
 ## Phase 4: OpenAI HTTP Server & Concurrency
 
-- [~] Task: OpenAI-compatible completion server
-    - [ ] Write integration tests for completions endpoint
-    - [ ] Implement net/http router and /v1/chat/completions with SSE streaming
-- [ ] Task: Concurrency queueing
-    - [ ] Write concurrency tests simulating multiple request arrivals
-    - [ ] Implement request queueing to prevent engine hardware overload
+- [x] Task: OpenAI-compatible completion server [9d31531]
+    - [x] Write integration tests for completions endpoint
+    - [x] Implement net/http router and /v1/chat/completions with SSE streaming
+- [x] Task: Concurrency queueing [9d31531]
+    - [x] Write concurrency tests simulating multiple request arrivals
+    - [x] Implement request queueing to prevent engine hardware overload
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: OpenAI HTTP Server & Concurrency' (Protocol in workflow.md)
