@@ -13,7 +13,7 @@
 
 ## Phase 2: Swift Bridge & Cgo Integration
 
-- [ ] Task: Implement Swift Bridge (`apple_ai_bridge.swift`)
+- [~] Task: Implement Swift Bridge (`apple_ai_bridge.swift`)
     - [ ] Write basic verification test or execution script for Swift compilation
     - [ ] Implement C-compatible exported functions utilizing FoundationModels
     - [ ] Use Task and DispatchSemaphore to block Cgo thread synchronously
