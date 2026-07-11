@@ -4,5 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Implement Go-Swift Cgo Bridge and Core LLM Runner MVP**
+- [x] **Track: Implement Go-Swift Cgo Bridge and Core LLM Runner MVP**
   *Link: [./tracks/go_swift_bridge_mvp_20260709/](./tracks/go_swift_bridge_mvp_20260709/)*
