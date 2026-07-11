@@ -1,18 +1,42 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"io"
 	"log/slog"
+	"net/http"
 	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 
 	"aplai/internal/cli"
 	"aplai/internal/config"
 	"aplai/internal/engine"
 	"aplai/internal/logger"
+	"aplai/internal/server"
 )
+
+type RealEngine struct{}
+
+type SessionAdapter struct {
+	*engine.Session
+}
+
+func (s SessionAdapter) Close() error {
+	s.Session.Close()
+	return nil
+}
+
+func (RealEngine) NewSession(instructions string) (server.Session, error) {
+	sess, err := engine.NewSession(instructions)
+	if err != nil {
+		return nil, err
+	}
+	return SessionAdapter{sess}, nil
+}
 
 func main() {
 	configFlag := flag.String("config", "", "Path to configuration file")
@@ -48,9 +72,29 @@ func main() {
 
 	// 3. Subcommand routing
 	if *serverFlag {
-		slog.Error("Server mode not implemented yet")
-		fmt.Fprintln(os.Stderr, "HTTP Server mode is not implemented yet.")
-		os.Exit(1)
+		slog.Info("Starting OpenAI-compatible HTTP server", "host", cfg.Server.Host, "port", cfg.Server.Port)
+		
+		realEngine := RealEngine{}
+		srv := server.NewServer(cfg.Server.Host, cfg.Server.Port, cfg.Engine.Instructions, realEngine)
+		
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+		
+		sigChan := make(chan os.Signal, 1)
+		signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+		go func() {
+			<-sigChan
+			cancel()
+		}()
+		
+		err = srv.Start(ctx)
+		if err != nil && err != http.ErrServerClosed {
+			slog.Error("Server execution failed", "error", err)
+			fmt.Fprintf(os.Stderr, "Server error: %v\n", err)
+			os.Exit(1)
+		}
+		slog.Info("Server stopped cleanly")
+		os.Exit(0)
 	}
 
 	// Initialize engine session
