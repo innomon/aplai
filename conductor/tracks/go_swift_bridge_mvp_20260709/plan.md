@@ -30,7 +30,7 @@
 - [x] Task: Configuration management (`config.yaml`) [b25acb8]
     - [x] Write unit tests for config file detection and loading
     - [x] Implement config loading checking custom path, current directory, and executable location
-- [ ] Task: Command line parser & pipeline execution
+- [~] Task: Command line parser & pipeline execution
     - [ ] Write unit tests for flag parsing and stdin piping
     - [ ] Implement standard flag parser and piping loop
 - [ ] Task: Interactive REPL chat (--chat)
