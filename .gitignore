@@ -5,5 +5,9 @@
 *.out
 
 # App binaries
-aplai
+/aplai
 verify_logger
+
+# Log files
+logs/
+
