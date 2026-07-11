@@ -27,7 +27,7 @@
 
 ## Phase 3: CLI, REPL & Configuration
 
-- [ ] Task: Configuration management (`config.yaml`)
+- [~] Task: Configuration management (`config.yaml`)
     - [ ] Write unit tests for config file detection and loading
     - [ ] Implement config loading checking custom path, current directory, and executable location
 - [ ] Task: Command line parser & pipeline execution
