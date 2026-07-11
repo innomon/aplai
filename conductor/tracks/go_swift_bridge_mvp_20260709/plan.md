@@ -33,7 +33,7 @@
 - [x] Task: Command line parser & pipeline execution [1a47cc2]
     - [x] Write unit tests for flag parsing and stdin piping
     - [x] Implement standard flag parser and piping loop
-- [ ] Task: Interactive REPL chat (--chat)
+- [~] Task: Interactive REPL chat (--chat)
     - [ ] Write unit tests/mocks for the REPL console interface
     - [ ] Implement REPL loop with prompt history
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: CLI, REPL & Configuration' (Protocol in workflow.md)
