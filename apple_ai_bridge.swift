@@ -61,11 +61,18 @@ public func AppleAISessionRespondStream(
     
     Task {
         do {
+            var lastLength = 0
             let stream = session.session.streamResponse(to: promptStr)
             for try await partialResponse in stream {
-                let token = partialResponse.content
-                token.withCString { cStr in
-                    callback(cStr, userData)
+                let fullContent = partialResponse.content
+                let currentLength = fullContent.count
+                if currentLength > lastLength {
+                    let startIndex = fullContent.index(fullContent.startIndex, offsetBy: lastLength)
+                    let newContent = String(fullContent[startIndex...])
+                    lastLength = currentLength
+                    newContent.withCString { cStr in
+                        callback(cStr, userData)
+                    }
                 }
             }
         } catch {
