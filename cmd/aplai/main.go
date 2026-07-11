@@ -53,10 +53,22 @@ func main() {
 		os.Exit(1)
 	}
 
-	if *chatFlag {
-		slog.Error("Chat mode not implemented yet")
-		fmt.Fprintln(os.Stderr, "Interactive REPL chat mode is not implemented yet.")
+	// Initialize engine session
+	session, err := engine.NewSession(cfg.Engine.Instructions)
+	if err != nil {
+		slog.Error("Failed to initialize engine session", "error", err)
+		fmt.Fprintf(os.Stderr, "Error initializing inference session: %v\n", err)
 		os.Exit(1)
+	}
+	defer session.Close()
+
+	if *chatFlag {
+		err = cli.RunRepl(session, os.Stdin, os.Stdout)
+		if err != nil {
+			slog.Error("REPL chat session failed", "error", err)
+			os.Exit(1)
+		}
+		os.Exit(0)
 	}
 
 	// 4. Default mode: Pipeline execution
@@ -76,15 +88,6 @@ func main() {
 		flag.Usage()
 		os.Exit(0)
 	}
-
-	// Initialize engine session
-	session, err := engine.NewSession(cfg.Engine.Instructions)
-	if err != nil {
-		slog.Error("Failed to initialize engine session", "error", err)
-		fmt.Fprintf(os.Stderr, "Error initializing inference session: %v\n", err)
-		os.Exit(1)
-	}
-	defer session.Close()
 
 	// Execute pipeline. In non-interactive mode, stdout must be strictly plain text.
 	var inputReader io.Reader = os.Stdin
