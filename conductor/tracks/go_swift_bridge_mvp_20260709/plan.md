@@ -21,7 +21,7 @@
 - [x] Task: Implement Go Cgo Wrapper [fbecf3f]
     - [x] Write Cgo binding tests mocking raw C calls
     - [x] Implement Go wrapper package referencing the C library with proper defer cleanup
-- [ ] Task: Build Automation
+- [~] Task: Build Automation
     - [ ] Create Makefile to build libapple_ai_bridge.dylib and compile Go application
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Swift Bridge & Cgo Integration' (Protocol in workflow.md)
 
