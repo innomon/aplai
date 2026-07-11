@@ -1,6 +1,8 @@
 package logger
 
 import (
+	"bytes"
+	"encoding/json"
 	"log/slog"
 	"os"
 	"path/filepath"
@@ -74,5 +76,67 @@ func TestMultiHandler_WithAttrsAndGroup(t *testing.T) {
 	hWithGroup := mh.WithGroup("test-group")
 	if hWithGroup == nil {
 		t.Error("expected WithGroup to return a non-nil handler")
+	}
+}
+
+func TestCustomLogger_PreservesCaller(t *testing.T) {
+	var buf bytes.Buffer
+	opts := &slog.HandlerOptions{
+		Level:     slog.LevelDebug,
+		AddSource: true,
+	}
+	handler := slog.NewJSONHandler(&buf, opts)
+	slogLogger := slog.New(handler)
+
+	cLogger := &CustomLogger{
+		logger: slogLogger,
+		module: "test-module",
+	}
+
+	cLogger.Infof("message info: %s", "hello") // This must be at line 98
+
+	var logEntry struct {
+		Source struct {
+			Function string `json:"function"`
+			File     string `json:"file"`
+			Line     int    `json:"line"`
+		} `json:"source"`
+		Msg string `json:"msg"`
+	}
+
+	err := json.Unmarshal(buf.Bytes(), &logEntry)
+	if err != nil {
+		t.Fatalf("failed to parse JSON log entry: %v, raw output: %s", err, buf.String())
+	}
+	t.Logf("RAW JSON LOG: %s", buf.String())
+
+	// Verify line number is close to the calling site line number (within 2 lines)
+	expectedLine := 97
+	diff := logEntry.Source.Line - expectedLine
+	if diff < -2 || diff > 2 {
+		t.Errorf("expected caller line near %d, got %d. Function: %s, File: %s", expectedLine, logEntry.Source.Line, logEntry.Source.Function, logEntry.Source.File)
+	}
+
+	// Verify it contains the right file name
+	if !bytes.Contains([]byte(logEntry.Source.File), []byte("logger_test.go")) {
+		t.Errorf("expected file to be logger_test.go, got %s", logEntry.Source.File)
+	}
+}
+
+func TestCustomLogger_Levels(t *testing.T) {
+	var buf bytes.Buffer
+	handler := slog.NewJSONHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})
+	l := slog.New(handler)
+	cl := NewCustomLogger(l, "test-module")
+
+	cl.Debugf("debug msg")
+	cl.Warnf("warn msg")
+	cl.Errorf("error msg")
+
+	out := buf.String()
+	if !bytes.Contains([]byte(out), []byte("debug msg")) ||
+		!bytes.Contains([]byte(out), []byte("warn msg")) ||
+		!bytes.Contains([]byte(out), []byte("error msg")) {
+		t.Errorf("expected logs to contain all messages, got: %s", out)
 	}
 }

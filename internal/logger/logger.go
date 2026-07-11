@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+	"runtime"
 	"strings"
+	"time"
 )
 
 // MultiHandler multiplexes logs to multiple handlers
@@ -109,3 +111,67 @@ func Init(cfg Config) (*slog.Logger, error) {
 
 	return Log, nil
 }
+
+type CustomLogger struct {
+	logger *slog.Logger
+	module string
+}
+
+func NewCustomLogger(l *slog.Logger, module string) *CustomLogger {
+	return &CustomLogger{
+		logger: l,
+		module: module,
+	}
+}
+
+func (c *CustomLogger) log(level slog.Level, format string, args ...interface{}) {
+	ctx := context.Background()
+	if !c.logger.Handler().Enabled(ctx, level) {
+		return
+	}
+	msg := fmt.Sprintf(format, args...)
+
+	// Retrieve calling frame dynamically while bypassing wrapper methods
+	var pcs [5]uintptr
+	n := runtime.Callers(1, pcs[:])
+	var pc uintptr
+	if n > 0 {
+		frames := runtime.CallersFrames(pcs[:n])
+		idx := 0
+		for {
+			frame, more := frames.Next()
+			// Exclude wrapper helper functions from tracing
+			if idx >= 2 && pc == 0 && !strings.Contains(frame.Function, "(*CustomLogger).") && !strings.Contains(frame.Function, "runtime.") {
+				pc = pcs[idx]
+			}
+			idx++
+			if !more {
+				break
+			}
+		}
+	}
+
+	// Create and write the record using the true call site PC
+	r := slog.NewRecord(time.Now(), level, msg, pc)
+	if c.module != "" {
+		r.AddAttrs(slog.String("module", c.module))
+	}
+	_ = c.logger.Handler().Handle(ctx, r)
+}
+
+func (c *CustomLogger) Debugf(format string, args ...interface{}) {
+	c.log(slog.LevelDebug, format, args...)
+}
+
+func (c *CustomLogger) Infof(format string, args ...interface{}) {
+	c.log(slog.LevelInfo, format, args...)
+}
+
+func (c *CustomLogger) Warnf(format string, args ...interface{}) {
+	c.log(slog.LevelWarn, format, args...)
+}
+
+func (c *CustomLogger) Errorf(format string, args ...interface{}) {
+	c.log(slog.LevelError, format, args...)
+}
+
