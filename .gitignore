@@ -11,3 +11,6 @@ verify_logger
 # Log files
 logs/
 
+.DS_Store
+**/.DS_Store
+
